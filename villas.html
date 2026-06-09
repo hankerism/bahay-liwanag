@@ -8,7 +8,7 @@
 
 <!--
   ===========================================================================
-  BAHAY LIWANAG — inherits the CANONICAL design system from home.html
+  BAHAY LIWANAG — inherits the CANONICAL design system from index.html
   Header (.site-header) and Footer (.site-footer) are reused EXACTLY.
   IMAGES https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/<file>.jpg
   ===========================================================================
@@ -66,7 +66,7 @@
   .section{padding-block:clamp(64px,9vw,120px)}
 
   /* ===================================================================
-     CANONICAL HEADER  (identical to home.html)
+     CANONICAL HEADER  (identical to index.html)
      =================================================================== */
   .site-header{position:fixed;inset:0 0 auto 0;z-index:100;height:var(--header-h);display:flex;align-items:center;background:var(--forest);border-bottom:1px solid var(--line-light);transition:background .4s var(--ease),box-shadow .4s var(--ease)}
   .site-header.scrolled{background:var(--forest-deep);box-shadow:0 10px 30px rgba(0,0,0,.18)}
@@ -132,7 +132,7 @@
   .cta-band .btn-ghost:hover{background:#fff;color:var(--terracotta)}
 
   /* ===================================================================
-     CANONICAL FOOTER  (identical to home.html)
+     CANONICAL FOOTER  (identical to index.html)
      =================================================================== */
   .site-footer{background:var(--forest-deep);color:rgba(248,245,240,.78);padding-top:clamp(56px,7vw,84px)}
   .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:40px;padding-bottom:clamp(44px,6vw,64px);border-bottom:1px solid var(--line-light)}
@@ -144,6 +144,21 @@
   .footer-col a:hover{color:var(--terracotta)}
   .footer-col .contact-line{font-size:.92rem;margin-bottom:11px;display:flex;gap:10px}
   .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding-block:26px;font-size:.82rem;color:rgba(248,245,240,.6)}
+
+  /* ===================================================================
+     LIGHTBOX / SLIDESHOW
+     =================================================================== */
+  .villa-gallery a{cursor:zoom-in}
+  .lightbox{position:fixed;inset:0;z-index:200;background:rgba(24,36,28,.95);display:none;align-items:center;justify-content:center;padding:clamp(16px,5vw,48px)}
+  .lightbox.open{display:flex}
+  .lightbox figure{max-width:94vw;max-height:88vh;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .lightbox img{max-width:94vw;max-height:80vh;border-radius:3px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .lightbox figcaption{color:#fff;font-family:var(--serif);font-style:italic;font-size:1.1rem}
+  .lb-btn{position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;width:52px;height:52px;border-radius:50%;cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:background .3s var(--ease)}
+  .lb-btn:hover{background:rgba(255,255,255,.22)}
+  .lb-prev{left:clamp(12px,3vw,40px);top:50%;transform:translateY(-50%)}
+  .lb-next{right:clamp(12px,3vw,40px);top:50%;transform:translateY(-50%)}
+  .lb-close{top:clamp(16px,3vw,32px);right:clamp(16px,3vw,32px);width:46px;height:46px;font-size:1.5rem}
 
   /* ---------- REVEAL (canonical) ---------- */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
@@ -175,9 +190,9 @@
 <!-- ============ CANONICAL HEADER ============ -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
-    <a href="home.html" class="logo">Bahay <span>Liwanag</span></a>
+    <a href="index.html" class="logo">Bahay <span>Liwanag</span></a>
     <nav class="nav" id="nav">
-      <a href="home.html">Home</a>
+      <a href="index.html">Home</a>
       <a href="villas.html" aria-current="page">Villas</a>
       <a href="experiences.html">Experiences</a>
       <a href="gallery.html">Gallery</a>
@@ -294,13 +309,13 @@
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="home.html" class="logo">Bahay <span>Liwanag</span></a>
+        <a href="index.html" class="logo">Bahay <span>Liwanag</span></a>
         <p>Modern Filipino tiny home resort — a heritage retreat designed for rest, set among the mountains.</p>
       </div>
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul>
-          <li><a href="home.html">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="villas.html">Villas</a></li>
           <li><a href="experiences.html">Experiences</a></li>
           <li><a href="gallery.html">Gallery</a></li>
@@ -329,6 +344,17 @@
   </div>
 </footer>
 
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+  <figure>
+    <img id="lbImg" src="" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Next">&#8250;</button>
+</div>
+
 <script>
   // Header background on scroll (canonical)
   const header = document.getElementById('siteHeader');
@@ -352,6 +378,33 @@
     entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
   }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---- Lightbox slideshow (click a villa photo, navigate left/right) ----
+  const lbItems = Array.from(document.querySelectorAll('.villa-gallery a'));
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  let current = 0;
+  function show(i){
+    const it = lbItems[i];
+    lbImg.src = it.getAttribute('href');
+    lbImg.alt = it.querySelector('img').alt;
+    lbCap.textContent = it.querySelector('img').alt;
+  }
+  function openAt(i){ current = i; show(current); lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function step(d){ current = (current + d + lbItems.length) % lbItems.length; show(current); }
+  function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  lbItems.forEach((it,i) => it.addEventListener('click', e => { e.preventDefault(); openAt(i); }));
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbNext').addEventListener('click', () => step(1));
+  document.getElementById('lbPrev').addEventListener('click', () => step(-1));
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') step(1);
+    if (e.key === 'ArrowLeft') step(-1);
+  });
 </script>
 </body>
 </html>
