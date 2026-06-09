@@ -1,1 +1,364 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experiences — Bahay Liwanag</title>
+<meta name="description" content="Curated experiences at Bahay Liwanag — sunrise viewing, bonfire nights, outdoor cinema, garden walks, slow breakfasts, and lantern-lit evenings.">
+
+<!--
+  ===========================================================================
+  BAHAY LIWANAG — inherits the CANONICAL design system from home.html
+  Header (.site-header) and Footer (.site-footer) are reused EXACTLY.
+  IMAGES https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/<file>.jpg
+  ===========================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- TOKENS (canonical) ---------- */
+  :root{
+    --ivory:#F8F5F0;
+    --ivory-warm:#EFE9DF;
+    --forest:#2F4F3E;
+    --forest-deep:#243D30;
+    --terracotta:#C86B4A;
+    --terracotta-deep:#B15A3B;
+    --charcoal:#2A2A2A;
+    --charcoal-soft:#54514B;
+    --line:rgba(42,42,42,.14);
+    --line-light:rgba(248,245,240,.22);
+    --serif:"Playfair Display",Georgia,serif;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --maxw:1200px;
+    --gutter:clamp(20px,5vw,64px);
+    --header-h:76px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  /* ---------- RESET (canonical) ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--charcoal);background:var(--ivory);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em}
+
+  /* ---------- SHARED HELPERS (canonical) ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+  .eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--terracotta)}
+  .eyebrow.on-dark{color:#E3A584}
+  .capiz{display:inline-grid;grid-template-columns:repeat(3,5px);grid-template-rows:repeat(3,5px);gap:2px;flex:none}
+  .capiz i{background:var(--terracotta);opacity:.85;display:block}
+  .capiz.on-dark i{background:#E3A584}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:600;font-size:.86rem;letter-spacing:.04em;padding:14px 28px;border-radius:2px;cursor:pointer;border:1.5px solid transparent;transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
+  .btn-primary{background:var(--terracotta);color:#fff}
+  .btn-primary:hover{background:var(--terracotta-deep);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+  .btn-ghost:hover{background:#fff;color:var(--forest);border-color:#fff}
+  .btn-outline{background:transparent;color:var(--forest);border-color:var(--forest)}
+  .btn-outline:hover{background:var(--forest);color:var(--ivory);transform:translateY(-2px)}
+
+  .section{padding-block:clamp(64px,9vw,120px)}
+
+  /* ===================================================================
+     CANONICAL HEADER  (identical to home.html)
+     =================================================================== */
+  .site-header{position:fixed;inset:0 0 auto 0;z-index:100;height:var(--header-h);display:flex;align-items:center;background:var(--forest);border-bottom:1px solid var(--line-light);transition:background .4s var(--ease),box-shadow .4s var(--ease)}
+  .site-header.scrolled{background:var(--forest-deep);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+  .header-inner{width:100%;max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--ivory);letter-spacing:.28em;text-transform:uppercase;white-space:nowrap}
+  .logo span{color:var(--terracotta)}
+  .nav{display:flex;align-items:center;gap:34px}
+  .nav a{font-size:.82rem;font-weight:500;letter-spacing:.06em;color:rgba(248,245,240,.82);position:relative;padding:6px 0;transition:color .3s var(--ease)}
+  .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--terracotta);transition:width .3s var(--ease)}
+  .nav a:hover,.nav a[aria-current="page"]{color:var(--ivory)}
+  .nav a:hover::after,.nav a[aria-current="page"]::after{width:100%}
+  .header-cta{display:flex;align-items:center;gap:18px}
+  .header-cta .btn{padding:11px 22px}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;width:30px;height:24px;position:relative}
+  .nav-toggle span{position:absolute;left:0;height:2px;width:100%;background:var(--ivory);transition:transform .35s var(--ease),opacity .35s var(--ease)}
+  .nav-toggle span:nth-child(1){top:2px}
+  .nav-toggle span:nth-child(2){top:11px}
+  .nav-toggle span:nth-child(3){top:20px}
+  body.nav-open .nav-toggle span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+  body.nav-open .nav-toggle span:nth-child(2){opacity:0}
+  body.nav-open .nav-toggle span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+
+  /* ===================================================================
+     PAGE HERO  (reuses canonical hero treatment, reduced height)
+     =================================================================== */
+  .page-hero{position:relative;min-height:62vh;display:flex;align-items:flex-end;color:#fff;padding-bottom:clamp(46px,7vw,82px);padding-top:var(--header-h)}
+  .page-hero .bg{position:absolute;inset:0;z-index:-2;background:url("https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/sunset-viewpoint.jpg") center/cover no-repeat}
+  .page-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(36,61,48,.88) 0%,rgba(36,61,48,.38) 55%,rgba(36,61,48,.22) 100%)}
+  .page-hero h1{font-size:clamp(2.4rem,5.6vw,4.2rem);margin:20px 0 18px;text-shadow:0 2px 30px rgba(0,0,0,.3)}
+  .page-hero p{max-width:560px;font-size:clamp(1rem,1.5vw,1.16rem);color:rgba(255,255,255,.92)}
+  .page-hero .eyebrow{color:#fff}
+
+  /* ===================================================================
+     EXPERIENCE CARDS
+     =================================================================== */
+  .section-head{max-width:620px;margin-bottom:clamp(38px,5vw,58px)}
+  .section-head.center{margin-inline:auto;text-align:center}
+  .section-head.center .eyebrow{justify-content:center}
+  .section-head h2{font-size:clamp(2rem,3.6vw,3rem);margin:18px 0 0;color:var(--forest)}
+
+  .exp-page-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .exp-item{background:#fff;border-radius:3px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 0 var(--line);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+  .exp-item:hover{transform:translateY(-8px);box-shadow:0 26px 50px rgba(0,0,0,.16)}
+  .exp-item .photo{aspect-ratio:4/3;overflow:hidden}
+  .exp-item .photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+  .exp-item:hover .photo img{transform:scale(1.07)}
+  .exp-item .body{padding:24px 24px 30px}
+  .exp-item .kicker{font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--terracotta)}
+  .exp-item h3{font-size:1.42rem;color:var(--forest);margin:8px 0 12px}
+  .exp-item p{font-size:.94rem;color:var(--charcoal-soft)}
+
+  /* ===================================================================
+     INTERLUDE BAND  (reuses canonical fixed-bg + forest overlay)
+     =================================================================== */
+  .interlude{position:relative;color:#fff;text-align:center;padding-block:clamp(80px,12vw,150px)}
+  .interlude .bg{position:absolute;inset:0;z-index:-2;background:url("https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/villa-at-night.jpg") center/cover fixed no-repeat}
+  .interlude::after{content:"";position:absolute;inset:0;z-index:-1;background:rgba(36,61,48,.82)}
+  .interlude .line{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1.4;max-width:20ch;margin:0 auto}
+  .interlude .eyebrow{justify-content:center;margin-bottom:22px}
+
+  /* ===================================================================
+     CTA BAND (canonical)
+     =================================================================== */
+  .cta-band{background:var(--terracotta);color:#fff;text-align:center}
+  .cta-band h2{font-size:clamp(2rem,4vw,3.2rem);margin-bottom:18px}
+  .cta-band p{max-width:520px;margin:0 auto 30px;color:rgba(255,255,255,.92)}
+  .cta-band .btn-ghost{border-color:rgba(255,255,255,.7)}
+  .cta-band .btn-ghost:hover{background:#fff;color:var(--terracotta)}
+
+  /* ===================================================================
+     CANONICAL FOOTER  (identical to home.html)
+     =================================================================== */
+  .site-footer{background:var(--forest-deep);color:rgba(248,245,240,.78);padding-top:clamp(56px,7vw,84px)}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:40px;padding-bottom:clamp(44px,6vw,64px);border-bottom:1px solid var(--line-light)}
+  .footer-brand .logo{display:inline-block;margin-bottom:16px}
+  .footer-brand p{font-size:.92rem;max-width:30ch}
+  .footer-col h4{font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ivory);margin-bottom:18px}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .footer-col a{font-size:.92rem;transition:color .3s var(--ease)}
+  .footer-col a:hover{color:var(--terracotta)}
+  .footer-col .contact-line{font-size:.92rem;margin-bottom:11px;display:flex;gap:10px}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding-block:26px;font-size:.82rem;color:rgba(248,245,240,.6)}
+
+  /* ---------- REVEAL (canonical) ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ===================================================================
+     RESPONSIVE (canonical + page)
+     =================================================================== */
+  @media (max-width:980px){
+    .exp-page-grid{grid-template-columns:1fr 1fr}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:34px}
+  }
+  @media (max-width:760px){
+    .nav-toggle{display:block;z-index:120}
+    .nav{position:fixed;inset:0;flex-direction:column;justify-content:center;gap:30px;background:var(--forest-deep);transform:translateX(100%);transition:transform .45s var(--ease)}
+    body.nav-open .nav{transform:none}
+    .nav a{font-size:1.2rem}
+    .header-cta .btn{display:none}
+  }
+  @media (max-width:600px){
+    .exp-page-grid{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none;transition:none}
+    .interlude .bg{background-attachment:scroll}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CANONICAL HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="home.html" class="logo">Bahay <span>Liwanag</span></a>
+    <nav class="nav" id="nav">
+      <a href="home.html">Home</a>
+      <a href="villas.html">Villas</a>
+      <a href="experiences.html" aria-current="page">Experiences</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="book-now.html">Book Now</a>
+    </nav>
+    <div class="header-cta">
+      <a href="book-now.html" class="btn btn-primary">Reserve Stay</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="bg"></div>
+  <div class="wrap">
+    <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Things to do</span>
+    <h1>Experiences</h1>
+    <p>Create unforgettable memories through curated experiences designed to help you slow down and enjoy every moment.</p>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE GRID ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Curated moments</span>
+      <h2>More Than Just a Stay</h2>
+    </div>
+    <div class="exp-page-grid">
+
+      <article class="exp-item reveal">
+        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/mountain-sunrise.jpg" alt="Mountain sunrise over misty hills"></div>
+        <div class="body">
+          <span class="kicker">Mornings</span>
+          <h3>Mountain Sunrise</h3>
+          <p>Start your day with breathtaking mountain scenery and fresh morning air from your private deck.</p>
+        </div>
+      </article>
+
+      <article class="exp-item reveal">
+        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/coffemorning.jpg" alt="Coffee and breakfast on a villa deck"></div>
+        <div class="body">
+          <span class="kicker">Mornings</span>
+          <h3>Local Breakfast</h3>
+          <p>Savor freshly brewed local coffee and a slow breakfast overlooking the rolling hills.</p>
+        </div>
+      </article>
+
+      <article class="exp-item reveal">
+        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/forest-walk.jpg" alt="Forest trail through lush greenery"></div>
+        <div class="body">
+          <span class="kicker">Daytime</span>
+          <h3>Garden Walk</h3>
+          <p>Wander winding pathways through lush tropical gardens and quiet pockets of greenery.</p>
+        </div>
+      </article>
+
+      <article class="exp-item reveal">
+        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/bonfire-gather.jpg" alt="Guests gathered around a stone fire pit"></div>
+        <div class="body">
+          <span class="kicker">Evenings</span>
+          <h3>Bonfire Nights</h3>
+          <p>Gather around the stone fire pit and enjoy cozy evenings beneath a sky full of stars.</p>
+        </div>
+      </article>
+
+      <article class="exp-item reveal">
+        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/outdoor-cinema-night.jpg" alt="Outdoor cinema setup under the night sky"></div>
+        <div class="body">
+          <span class="kicker">Evenings</span>
+          <h3>Outdoor Cinema</h3>
+          <p>Watch your favorite films under the open night sky, wrapped in warm lantern light.</p>
+        </div>
+      </article>
+
+      <article class="exp-item reveal">
+        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/pathway.jpg" alt="Pathway lit by warm string lights at night"></div>
+        <div class="body">
+          <span class="kicker">Evenings</span>
+          <h3>Evening Lights</h3>
+          <p>End the day along string-light pathways that glow softly through the mountain air.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERLUDE ============ -->
+<section class="interlude">
+  <div class="bg"></div>
+  <div class="wrap reveal">
+    <span class="eyebrow on-dark"><span class="capiz on-dark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>After dark</span>
+    <p class="line">From slow sunrises to lantern-lit nights, every hour here has its own kind of quiet.</p>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="section cta-band">
+  <div class="wrap reveal">
+    <h2>Your Mountain Escape Awaits</h2>
+    <p>Book your stay and experience the warmth of modern Filipino heritage living, surrounded by the hills.</p>
+    <a href="book-now.html" class="btn btn-ghost">Book Your Stay</a>
+  </div>
+</section>
+
+<!-- ============ CANONICAL FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="home.html" class="logo">Bahay <span>Liwanag</span></a>
+        <p>Modern Filipino tiny home resort — a heritage retreat designed for rest, set among the mountains.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="villas.html">Villas</a></li>
+          <li><a href="experiences.html">Experiences</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="book-now.html">Book Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="contact-line">📍 Tagaytay Highlands, Philippines</div>
+        <div class="contact-line">📧 <a href="mailto:hello@bahayliwanag.com">hello@bahayliwanag.com</a></div>
+        <div class="contact-line">📞 +63 912 345 6789</div>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Pinterest</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Bahay Liwanag. All Rights Reserved.</span>
+      <span>A design portfolio project.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header background on scroll (canonical)
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Mobile nav toggle (canonical)
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  toggle.addEventListener('click', () => {
+    const open = document.body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    document.body.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', false);
+  }));
+
+  // Scroll reveal (canonical)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
