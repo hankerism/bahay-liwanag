@@ -224,7 +224,7 @@
         <h2>Reserve Your Stay</h2>
         <p class="lede">Tell us a little about your trip and we'll take care of the rest.</p>
 
-        <form class="form-grid" id="reservationForm" novalidate>
+        <form   class="form-grid"   id="reservationForm"   action="https://hook.eu1.make.com/cqxcbjw3mw8h9rj5czycb2cebvzb7xw8"   method="POST"   novalidate>
           <div class="field full">
             <label for="fullname">Full Name</label>
             <input type="text" id="fullname" name="full_name" autocomplete="name" required>
@@ -363,43 +363,7 @@
   }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // ---- Reservation submit (Make webhook) ----
-  const WEBHOOK_URL = "https://hook.eu1.make.com/cqxcbjw3mw8h9rj5czycb2cebvzb7xw8";
-  const form = document.getElementById('reservationForm');
-  const formError = document.getElementById('formError');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()){ form.reportValidity(); return; }
-    const btn = form.querySelector('button[type="submit"]');
-    const original = btn.textContent;
-    formError.classList.remove('show');
-    btn.disabled = true; btn.textContent = 'Sending…';
-
-    const payload = {
-      full_name: form.querySelector('[name="full_name"]').value,
-      email: form.querySelector('[name="email"]').value,
-      phone: form.querySelector('[name="phone"]').value,
-      check_in: form.querySelector('[name="check_in"]').value,
-      check_out: form.querySelector('[name="check_out"]').value,
-      guests: form.querySelector('[name="guests"]').value,
-      villa: form.querySelector('[name="villa"]').value,
-      special_requests: form.querySelector('[name="special_requests"]').value
-    };
-
-    try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      window.location.href = "thank-you.html";
-    } catch (error) {
-      console.error(error);
-      formError.textContent = "Something went wrong sending your request. Please try again.";
-      formError.classList.add('show');
-      btn.disabled = false; btn.textContent = original;
-    }
-  });
+  
 </script>
 </body>
 </html>
