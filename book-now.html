@@ -224,11 +224,10 @@
         <h2>Reserve Your Stay</h2>
         <p class="lede">Tell us a little about your trip and we'll take care of the rest.</p>
 
-        <form class="form-grid" id="bookingForm" action="https://formspree.io/f/mrevljnk" method="POST" novalidate>
-          <input type="hidden" name="_subject" value="New reservation request — Bahay Liwanag">
+        <form class="form-grid" id="reservationForm" novalidate>
           <div class="field full">
             <label for="fullname">Full Name</label>
-            <input type="text" id="fullname" name="fullname" autocomplete="name" required>
+            <input type="text" id="fullname" name="full_name" autocomplete="name" required>
           </div>
           <div class="field">
             <label for="email">Email Address</label>
@@ -240,11 +239,11 @@
           </div>
           <div class="field">
             <label for="checkin">Check-in Date</label>
-            <input type="date" id="checkin" name="checkin" required>
+            <input type="date" id="checkin" name="check_in" required>
           </div>
           <div class="field">
             <label for="checkout">Check-out Date</label>
-            <input type="date" id="checkout" name="checkout" required>
+            <input type="date" id="checkout" name="check_out" required>
           </div>
           <div class="field">
             <label for="guests">Number of Guests</label>
@@ -261,13 +260,13 @@
           </div>
           <div class="field full">
             <label for="requests">Special Requests</label>
-            <textarea id="requests" name="requests" placeholder="Dietary needs, arrival time, celebrations..."></textarea>
+            <textarea id="requests" name="special_requests" placeholder="Dietary needs, arrival time, celebrations..."></textarea>
           </div>
           <div class="submit-row">
             <button type="submit" class="btn btn-primary">Submit Reservation</button>
           </div>
           <p class="form-error" id="formError" role="alert"></p>
-          <p class="demo-note">This website is part of a design portfolio project. Reservation requests are sent to our inbox by email and confirmed manually.</p>
+          <p class="demo-note">This website is part of a design portfolio project. Reservation requests are sent to our team and confirmed manually.</p>
         </form>
       </div>
 
@@ -363,8 +362,9 @@
   }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // ---- Reservation submit (Formspree) ----
-  const form = document.getElementById('bookingForm');
+  // ---- Reservation submit (Make webhook) ----
+  const WEBHOOK_URL = "https://hook.eu1.make.com/cqxcbjw3mw8h9rj5czycb2cebvzb7xw8";
+  const form = document.getElementById('reservationForm');
   const formError = document.getElementById('formError');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -373,24 +373,31 @@
     const original = btn.textContent;
     formError.classList.remove('show');
     btn.disabled = true; btn.textContent = 'Sending…';
+
+    const payload = {
+      full_name: form.querySelector('[name="full_name"]').value,
+      email: form.querySelector('[name="email"]').value,
+      phone: form.querySelector('[name="phone"]').value,
+      check_in: form.querySelector('[name="check_in"]').value,
+      check_out: form.querySelector('[name="check_out"]').value,
+      guests: form.querySelector('[name="guests"]').value,
+      villa: form.querySelector('[name="villa"]').value,
+      special_requests: form.querySelector('[name="special_requests"]').value
+    };
+
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-      if (res.ok){
-        window.location.href = 'thank-you.html';
-        return;
-      }
-      const data = await res.json().catch(() => ({}));
-      formError.textContent = (data.errors && data.errors.map(x => x.message).join(' ')) || 'Sorry, something went wrong. Please try again.';
+      window.location.href = "thank-you.html";
+    } catch (error) {
+      console.error(error);
+      formError.textContent = "Something went wrong sending your request. Please try again.";
       formError.classList.add('show');
-    } catch (err) {
-      formError.textContent = 'Network error — please check your connection and try again.';
-      formError.classList.add('show');
+      btn.disabled = false; btn.textContent = original;
     }
-    btn.disabled = false; btn.textContent = original;
   });
 </script>
 </body>
