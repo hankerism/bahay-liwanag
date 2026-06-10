@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Payment — Bahay Liwanag</title>
+<meta name="description" content="Complete your reservation deposit for Bahay Liwanag — a modern Filipino heritage retreat in the Tagaytay Highlands.">
+
+<!--
+  ===========================================================================
+  BAHAY LIWANAG — inherits the CANONICAL design system from index.html
+  Header (.site-header) and Footer (.site-footer) are reused EXACTLY.
+  PORTFOLIO DEMO: the payment form validates and formats input but does NOT
+  process a real charge and never transmits or stores card data.
+  ===========================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- TOKENS (canonical) ---------- */
+  :root{
+    --ivory:#F8F5F0;
+    --ivory-warm:#EFE9DF;
+    --forest:#2F4F3E;
+    --forest-deep:#243D30;
+    --terracotta:#C86B4A;
+    --terracotta-deep:#B15A3B;
+    --charcoal:#2A2A2A;
+    --charcoal-soft:#54514B;
+    --line:rgba(42,42,42,.14);
+    --line-light:rgba(248,245,240,.22);
+    --serif:"Playfair Display",Georgia,serif;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --maxw:1200px;
+    --gutter:clamp(20px,5vw,64px);
+    --header-h:76px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  /* ---------- RESET (canonical) ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--charcoal);background:var(--ivory);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em}
+
+  /* ---------- SHARED HELPERS (canonical) ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+  .eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--terracotta)}
+  .eyebrow.on-dark{color:#E3A584}
+  .capiz{display:inline-grid;grid-template-columns:repeat(3,5px);grid-template-rows:repeat(3,5px);gap:2px;flex:none}
+  .capiz i{background:var(--terracotta);opacity:.85;display:block}
+  .capiz.on-dark i{background:#E3A584}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:600;font-size:.86rem;letter-spacing:.04em;padding:14px 28px;border-radius:2px;cursor:pointer;border:1.5px solid transparent;transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
+  .btn-primary{background:var(--terracotta);color:#fff}
+  .btn-primary:hover{background:var(--terracotta-deep);transform:translateY(-2px)}
+  .btn-primary:disabled{opacity:.7;cursor:default;transform:none}
+  .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+  .btn-ghost:hover{background:#fff;color:var(--forest);border-color:#fff}
+  .btn-outline{background:transparent;color:var(--forest);border-color:var(--forest)}
+  .btn-outline:hover{background:var(--forest);color:var(--ivory);transform:translateY(-2px)}
+
+  .section{padding-block:clamp(64px,9vw,120px)}
+
+  /* ===================================================================
+     CANONICAL HEADER  (identical to index.html)
+     =================================================================== */
+  .site-header{position:fixed;inset:0 0 auto 0;z-index:100;height:var(--header-h);display:flex;align-items:center;background:var(--forest);border-bottom:1px solid var(--line-light);transition:background .4s var(--ease),box-shadow .4s var(--ease)}
+  .site-header.scrolled{background:var(--forest-deep);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+  .header-inner{width:100%;max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--ivory);letter-spacing:.28em;text-transform:uppercase;white-space:nowrap}
+  .logo span{color:var(--terracotta)}
+  .nav{display:flex;align-items:center;gap:34px}
+  .nav a{font-size:.82rem;font-weight:500;letter-spacing:.06em;color:rgba(248,245,240,.82);position:relative;padding:6px 0;transition:color .3s var(--ease)}
+  .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--terracotta);transition:width .3s var(--ease)}
+  .nav a:hover,.nav a[aria-current="page"]{color:var(--ivory)}
+  .nav a:hover::after,.nav a[aria-current="page"]::after{width:100%}
+  .header-cta{display:flex;align-items:center;gap:18px}
+  .header-cta .btn{padding:11px 22px}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;width:30px;height:24px;position:relative}
+  .nav-toggle span{position:absolute;left:0;height:2px;width:100%;background:var(--ivory);transition:transform .35s var(--ease),opacity .35s var(--ease)}
+  .nav-toggle span:nth-child(1){top:2px}
+  .nav-toggle span:nth-child(2){top:11px}
+  .nav-toggle span:nth-child(3){top:20px}
+  body.nav-open .nav-toggle span:nth-child(1){transform:translateY(9px) rotate(45deg)}
+  body.nav-open .nav-toggle span:nth-child(2){opacity:0}
+  body.nav-open .nav-toggle span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+
+  /* ===================================================================
+     PAGE HERO  (reuses canonical hero treatment, reduced height)
+     =================================================================== */
+  .page-hero{position:relative;min-height:46vh;display:flex;align-items:flex-end;color:#fff;padding-bottom:clamp(40px,6vw,68px);padding-top:var(--header-h)}
+  .page-hero .bg{position:absolute;inset:0;z-index:-2;background:url("https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/book-now-hero.jpg") center/cover no-repeat}
+  .page-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(36,61,48,.9) 0%,rgba(36,61,48,.45) 55%,rgba(36,61,48,.28) 100%)}
+  .page-hero h1{font-size:clamp(2.2rem,5vw,3.6rem);margin:18px 0 14px;text-shadow:0 2px 30px rgba(0,0,0,.3)}
+  .page-hero p{max-width:540px;font-size:clamp(1rem,1.5vw,1.12rem);color:rgba(255,255,255,.92)}
+  .page-hero .eyebrow{color:#fff}
+
+  /* ===================================================================
+     CHECKOUT
+     =================================================================== */
+  .checkout{background:var(--ivory-warm)}
+  .checkout-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(28px,4vw,48px);align-items:start}
+
+  .pay-card,.summary-card{background:var(--ivory);border-radius:4px;box-shadow:0 18px 50px rgba(36,61,48,.12)}
+  .pay-card{padding:clamp(28px,4vw,46px)}
+  .pay-card h2{font-size:clamp(1.6rem,2.8vw,2.1rem);color:var(--forest);margin:14px 0 6px}
+  .pay-card .lede{color:var(--charcoal-soft);font-size:.96rem}
+
+  /* form fields (canonical) */
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--charcoal-soft)}
+  .field input{font-family:var(--sans);font-size:.95rem;color:var(--charcoal);padding:12px 14px;border:1px solid var(--line);border-radius:2px;background:#fff;transition:border-color .3s var(--ease),box-shadow .3s var(--ease);width:100%}
+  .field input:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(200,107,74,.16)}
+
+  .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;margin-top:26px}
+  .card-input-wrap{position:relative}
+  .card-input-wrap input{padding-right:74px}
+  .card-brand{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.66rem;font-weight:700;letter-spacing:.08em;color:var(--terracotta);text-transform:uppercase}
+  .secure-row{grid-column:1/-1;display:flex;align-items:center;gap:9px;color:var(--charcoal-soft);font-size:.81rem;border-top:1px solid var(--line);padding-top:16px;margin-top:4px}
+  .secure-row svg{flex:none;color:var(--forest)}
+  .pay-btn-row{grid-column:1/-1;margin-top:2px}
+  .pay-btn-row .btn{width:100%;padding:16px}
+  .form-error{grid-column:1/-1;display:none;color:#B3402A;font-size:.88rem;font-weight:500}
+  .form-error.show{display:block}
+
+  /* summary */
+  .summary-card{padding:clamp(26px,3.4vw,38px);position:sticky;top:calc(var(--header-h) + 20px)}
+  .summary-card h3{font-family:var(--serif);font-size:1.45rem;color:var(--forest);margin:12px 0 4px}
+  .sum-meta{color:var(--charcoal-soft);font-size:.88rem;margin-bottom:20px}
+  .sum-line{display:flex;justify-content:space-between;gap:12px;font-size:.92rem;padding:9px 0;color:var(--charcoal-soft)}
+  .sum-line span:last-child{color:var(--charcoal);font-weight:500}
+  .sum-divider{border-top:1px solid var(--line);margin:6px 0}
+  .sum-total{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding-top:16px;margin-top:8px;border-top:2px solid var(--forest)}
+  .sum-total .lbl{font-weight:600;color:var(--forest);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+  .sum-total .amt{font-family:var(--serif);font-size:1.7rem;color:var(--forest);font-weight:600}
+  .sum-note{font-size:.8rem;color:var(--charcoal-soft);margin-top:16px;font-style:italic}
+
+  /* success */
+  .pay-success{display:none;text-align:center;padding:18px 6px}
+  .pay-success.show{display:block}
+  .pay-success .mark{width:58px;height:58px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 18px}
+  .pay-success h2{color:var(--forest);margin:0 0 10px}
+  .pay-success p{color:var(--charcoal-soft);max-width:46ch;margin:0 auto 8px}
+  .pay-success .receipt{display:inline-flex;flex-direction:column;gap:5px;background:var(--ivory-warm);border-radius:4px;padding:18px 30px;margin:20px 0}
+  .pay-success .receipt .cap{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--charcoal-soft)}
+  .pay-success .receipt b{font-family:var(--serif);font-size:1.5rem;color:var(--forest)}
+  .pay-success .receipt .ref{font-size:.82rem;color:var(--charcoal-soft)}
+
+  /* ---------- CANONICAL FOOTER ---------- */
+  .site-footer{background:var(--forest-deep);color:rgba(248,245,240,.78);padding-top:clamp(56px,7vw,84px)}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:40px;padding-bottom:clamp(44px,6vw,64px);border-bottom:1px solid var(--line-light)}
+  .footer-brand .logo{display:inline-block;margin-bottom:16px}
+  .footer-brand p{font-size:.92rem;max-width:30ch}
+  .footer-col h4{font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ivory);margin-bottom:18px}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .footer-col a{font-size:.92rem;transition:color .3s var(--ease)}
+  .footer-col a:hover{color:var(--terracotta)}
+  .footer-col .contact-line{font-size:.92rem;margin-bottom:11px;display:flex;gap:10px}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding-block:26px;font-size:.82rem;color:rgba(248,245,240,.6)}
+
+  /* ---------- REVEAL (canonical) ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .footer-grid{grid-template-columns:1fr 1fr;gap:34px}
+  }
+  @media (max-width:880px){
+    .checkout-grid{grid-template-columns:1fr}
+    .summary-card{position:static;order:-1}
+  }
+  @media (max-width:760px){
+    .nav-toggle{display:block;z-index:120}
+    .nav{position:fixed;inset:0;flex-direction:column;justify-content:center;gap:30px;background:var(--forest-deep);transform:translateX(100%);transition:transform .45s var(--ease)}
+    body.nav-open .nav{transform:none}
+    .nav a{font-size:1.2rem}
+    .header-cta .btn{display:none}
+    .pay-grid{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CANONICAL HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Bahay <span>Liwanag</span></a>
+    <nav class="nav" id="nav">
+      <a href="index.html">Home</a>
+      <a href="villas.html">Villas</a>
+      <a href="experiences.html">Experiences</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="book-now.html">Book Now</a>
+    </nav>
+    <div class="header-cta">
+      <a href="book-now.html" class="btn btn-primary">Reserve Stay</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="bg"></div>
+  <div class="wrap">
+    <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Secure Checkout</span>
+    <h1>Complete Your Reservation</h1>
+    <p>One last step — secure your stay with a deposit, and the highlands will be ready to welcome you.</p>
+  </div>
+</section>
+
+<!-- ============ CHECKOUT ============ -->
+<section class="section checkout">
+  <div class="wrap">
+    <div class="checkout-grid">
+
+      <!-- PAYMENT -->
+      <div class="pay-card reveal">
+        <div id="payWrap">
+          <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Payment</span>
+          <h2>Pay Your Deposit</h2>
+          <p class="lede">A 50% deposit confirms your booking. The remaining balance is settled on arrival.</p>
+
+          <form class="pay-grid" id="paymentForm" novalidate>
+            <div class="field full">
+              <label for="cardname">Cardholder Name</label>
+              <input type="text" id="cardname" autocomplete="cc-name" placeholder="As shown on card" required>
+            </div>
+            <div class="field full">
+              <label for="cardnumber">Card Number</label>
+              <div class="card-input-wrap">
+                <input type="text" id="cardnumber" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" required>
+                <span class="card-brand" id="cardBrand"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="expiry">Expiry</label>
+              <input type="text" id="expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" required>
+            </div>
+            <div class="field">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123" required>
+            </div>
+            <div class="field full">
+              <label for="billemail">Email for Receipt</label>
+              <input type="email" id="billemail" autocomplete="email" placeholder="you@email.com" required>
+            </div>
+
+            <div class="secure-row">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              Encrypted payment · Portfolio demo — no real charge is made and no card data is stored or sent.
+            </div>
+
+            <div class="pay-btn-row">
+              <button type="submit" class="btn btn-primary" id="payBtn">Pay Deposit</button>
+            </div>
+            <p class="form-error" id="payError" role="alert"></p>
+          </form>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div class="pay-success" id="paySuccess" role="status" aria-live="polite">
+          <div class="mark">&#10003;</div>
+          <h2>Payment Successful</h2>
+          <p>Thank you, <span id="successName">guest</span>! Your deposit is confirmed and your stay is secured.</p>
+          <div class="receipt">
+            <span class="cap">Deposit Paid</span>
+            <b id="successAmt">₱0</b>
+            <span class="ref">Ref: <span id="successRef">—</span></span>
+          </div>
+          <p>A receipt is on its way to your inbox. We can't wait to welcome you to Bahay Liwanag.</p>
+          <p style="margin-top:18px"><a href="index.html" class="btn btn-outline">Back to Home</a></p>
+          <p class="sum-note">This is a design portfolio demo. No payment was processed, and no card details were stored or transmitted.</p>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <aside class="summary-card reveal">
+        <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Booking Summary</span>
+        <h3 id="sumVilla">Villa Narra</h3>
+        <div class="sum-meta" id="sumMeta">Your selected dates · 2 guests</div>
+        <div class="sum-line"><span>Nightly rate</span><span id="sumRate">₱0</span></div>
+        <div class="sum-line"><span id="sumNightsLbl">0 nights</span><span id="sumSubtotal">₱0</span></div>
+        <div class="sum-line"><span>VAT (12%)</span><span id="sumVat">₱0</span></div>
+        <div class="sum-divider"></div>
+        <div class="sum-line"><span>Total stay</span><span id="sumTotal">₱0</span></div>
+        <div class="sum-total">
+          <span class="lbl">Deposit due now</span>
+          <span class="amt" id="sumDeposit">₱0</span>
+        </div>
+        <p class="sum-note">50% deposit secures your booking. Balance due at check-in.</p>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CANONICAL FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Bahay <span>Liwanag</span></a>
+        <p>Modern Filipino tiny home resort — a heritage retreat designed for rest, set among the mountains.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="villas.html">Villas</a></li>
+          <li><a href="experiences.html">Experiences</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="book-now.html">Book Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="contact-line">📍 Tagaytay Highlands, Philippines</div>
+        <div class="contact-line">📧 <a href="mailto:hello@bahayliwanag.com">hello@bahayliwanag.com</a></div>
+        <div class="contact-line">📞 +63 912 345 6789</div>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Pinterest</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Bahay Liwanag. All Rights Reserved.</span>
+      <span>A design portfolio project.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header background on scroll (canonical)
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Mobile nav toggle (canonical)
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  toggle.addEventListener('click', () => {
+    const open = document.body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    document.body.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', false);
+  }));
+
+  // Scroll reveal (canonical)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---- Pricing + booking summary ----
+  const RATES = {
+    "Villa Sampaguita": 8500,
+    "Villa Narra": 11000,
+    "Villa Amihan": 15000,
+    "No preference": 10000
+  };
+  const peso = n => "₱" + Math.round(n).toLocaleString("en-PH");
+  const fmtDate = s => {
+    const d = new Date(s);
+    return isNaN(d) ? s : d.toLocaleDateString("en-US", {month:"short", day:"numeric", year:"numeric"});
+  };
+  const nightsBetween = (a,b) => {
+    const n = Math.round((new Date(b) - new Date(a)) / 86400000);
+    return (isFinite(n) && n > 0) ? n : 2;
+  };
+
+  const p = new URLSearchParams(location.search);
+  const villa   = p.get("villa") || "Villa Narra";
+  const checkin = p.get("checkin") || p.get("check_in");
+  const checkout= p.get("checkout") || p.get("check_out");
+  const guests  = p.get("guests") || "2";
+  const gname   = p.get("name") || p.get("full_name") || "";
+  const gemail  = p.get("email") || "";
+
+  const nights   = (checkin && checkout) ? nightsBetween(checkin, checkout) : 2;
+  const rate     = RATES[villa] || RATES["No preference"];
+  const subtotal = rate * nights;
+  const vat      = subtotal * 0.12;
+  const total    = subtotal + vat;
+  const deposit  = total * 0.5;
+
+  // fill summary
+  document.getElementById('sumVilla').textContent = villa;
+  const dateStr = (checkin && checkout) ? (fmtDate(checkin) + " → " + fmtDate(checkout)) : "Your selected dates";
+  document.getElementById('sumMeta').textContent = dateStr + " · " + guests + " guest" + (guests == 1 ? "" : "s");
+  document.getElementById('sumRate').textContent = peso(rate) + " / night";
+  document.getElementById('sumNightsLbl').textContent = nights + " night" + (nights == 1 ? "" : "s");
+  document.getElementById('sumSubtotal').textContent = peso(subtotal);
+  document.getElementById('sumVat').textContent = peso(vat);
+  document.getElementById('sumTotal').textContent = peso(total);
+  document.getElementById('sumDeposit').textContent = peso(deposit);
+  document.getElementById('payBtn').textContent = "Pay " + peso(deposit) + " Deposit";
+
+  // prefill from URL
+  if (gname)  document.getElementById('cardname').value = gname;
+  if (gemail) document.getElementById('billemail').value = gemail;
+
+  // ---- Card field formatting ----
+  const cardnumber = document.getElementById('cardnumber');
+  const cardBrand  = document.getElementById('cardBrand');
+  const expiry     = document.getElementById('expiry');
+  const cvv        = document.getElementById('cvv');
+
+  cardnumber.addEventListener('input', () => {
+    let v = cardnumber.value.replace(/\D/g, '').slice(0, 16);
+    cardnumber.value = v.replace(/(.{4})/g, '$1 ').trim();
+    let b = '';
+    if (/^4/.test(v)) b = 'Visa';
+    else if (/^(5[1-5]|2[2-7])/.test(v)) b = 'Mastercard';
+    else if (/^3[47]/.test(v)) b = 'Amex';
+    cardBrand.textContent = b;
+  });
+  expiry.addEventListener('input', () => {
+    let v = expiry.value.replace(/\D/g, '').slice(0, 4);
+    expiry.value = v.length > 2 ? v.slice(0,2) + ' / ' + v.slice(2) : v;
+  });
+  cvv.addEventListener('input', () => {
+    cvv.value = cvv.value.replace(/\D/g, '').slice(0, 4);
+  });
+
+  // ---- Submit (demo only — no network, no storage) ----
+  const form    = document.getElementById('paymentForm');
+  const payError= document.getElementById('payError');
+  const payBtn  = document.getElementById('payBtn');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    payError.classList.remove('show');
+
+    const num = cardnumber.value.replace(/\s/g, '');
+    const exp = expiry.value.replace(/\s/g, '');
+    const errs = [];
+
+    if (!document.getElementById('cardname').value.trim()) errs.push('name');
+    if (num.length < 15) errs.push('card');
+    let expired = false;
+    if (!/^\d{2}\/\d{2}$/.test(exp)) {
+      errs.push('expiry');
+    } else {
+      const [mm, yy] = exp.split('/').map(Number);
+      if (mm < 1 || mm > 12) errs.push('expiry');
+      else {
+        const end = new Date(2000 + yy, mm, 1); // first day after the expiry month
+        if (end <= new Date()) { errs.push('expiry'); expired = true; }
+      }
+    }
+    if (cvv.value.length < 3) errs.push('cvv');
+    const be = document.getElementById('billemail');
+    if (!be.value || !be.checkValidity()) errs.push('email');
+
+    if (errs.length) {
+      payError.textContent = expired
+        ? "That card appears to have expired — please check the expiry date."
+        : "Please double-check your card details and try again.";
+      payError.classList.add('show');
+      return;
+    }
+
+    const orig = payBtn.textContent;
+    payBtn.disabled = true;
+    payBtn.textContent = "Processing…";
+
+    setTimeout(() => {
+      document.getElementById('successName').textContent =
+        document.getElementById('cardname').value.trim().split(/\s+/)[0] || "guest";
+      document.getElementById('successAmt').textContent = peso(deposit);
+      document.getElementById('successRef').textContent =
+        "BL-" + Date.now().toString(36).toUpperCase().slice(-8);
+      document.getElementById('payWrap').style.display = 'none';
+      const ok = document.getElementById('paySuccess');
+      ok.classList.add('show');
+      ok.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 1100);
+  });
+</script>
+</body>
+</html>
