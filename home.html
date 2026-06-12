@@ -14,7 +14,7 @@
   TYPE     Playfair Display (headings) · Inter (body/UI)
   HEADER   .site-header  — reuse EXACTLY on every page
   FOOTER   .site-footer  — reuse EXACTLY on every page
-  IMAGES   https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/<file>.jpg
+  IMAGES   images/<file>.jpg
   ===========================================================================
 -->
 
@@ -138,7 +138,7 @@
   .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
     color:#fff;padding-bottom:clamp(56px,9vw,110px);padding-top:var(--header-h)}
   .hero-bg{position:absolute;inset:0;z-index:-2;
-    background:url("https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/hero.jpg") center/cover no-repeat;
+    background:url("images/hero.jpg") center/cover no-repeat;
     transform:scale(1.06);animation:heroZoom 14s var(--ease) forwards}
   @keyframes heroZoom{to{transform:scale(1)}}
   .hero::after{content:"";position:absolute;inset:0;z-index:-1;
@@ -219,7 +219,7 @@
      =================================================================== */
   .testimonials{position:relative;color:#fff}
   .testimonials .bg{position:absolute;inset:0;z-index:-2;
-    background:url("https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/testimonials.jpg") center/cover fixed no-repeat}
+    background:url("images/testimonials.jpg") center/cover fixed no-repeat}
   .testimonials::after{content:"";position:absolute;inset:0;z-index:-1;background:rgba(36,61,48,.82)}
   .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:clamp(36px,5vw,54px)}
   .t-card{border-top:1px solid rgba(255,255,255,.28);padding-top:24px}
@@ -330,7 +330,7 @@
 <section class="section">
   <div class="wrap split reveal">
     <div class="split-media">
-      <img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/why-stay-with-us.jpg" alt="Lantern-lit interior of a Bahay Liwanag villa">
+      <img src="images/why-stay-with-us.jpg" alt="Lantern-lit interior of a Bahay Liwanag villa">
       <span class="frame"></span>
     </div>
     <div class="split-body">
@@ -346,7 +346,7 @@
 <section class="section" style="background:var(--ivory-warm)">
   <div class="wrap split reverse reveal">
     <div class="split-media">
-      <img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/about.jpg" alt="Warm wood interior with capiz-inspired windows">
+      <img src="images/about.jpg" alt="Warm wood interior with capiz-inspired windows">
       <span class="frame"></span>
     </div>
     <div class="split-body">
@@ -367,7 +367,7 @@
     </div>
     <div class="villa-grid">
       <article class="villa-card reveal">
-        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/sampaguita.jpg" alt="Villa Sampaguita bedroom"></div>
+        <div class="photo"><img src="images/sampaguita.jpg" alt="Villa Sampaguita bedroom"></div>
         <div class="body">
           <span class="kicker">For Couples</span>
           <h3>Villa Sampaguita</h3>
@@ -375,7 +375,7 @@
         </div>
       </article>
       <article class="villa-card reveal">
-        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/narra.jpg" alt="Villa Narra family space"></div>
+        <div class="photo"><img src="images/narra.jpg" alt="Villa Narra family space"></div>
         <div class="body">
           <span class="kicker">For Families</span>
           <h3>Villa Narra</h3>
@@ -383,7 +383,7 @@
         </div>
       </article>
       <article class="villa-card reveal">
-        <div class="photo"><img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/amihan.jpg" alt="Villa Amihan premium villa"></div>
+        <div class="photo"><img src="images/amihan.jpg" alt="Villa Amihan premium villa"></div>
         <div class="body">
           <span class="kicker">Luxury Escape</span>
           <h3>Villa Amihan</h3>
@@ -404,19 +404,19 @@
     </div>
     <div class="exp-grid">
       <article class="exp-card reveal">
-        <img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/bonfire.jpg" alt="Bonfire evening">
+        <img src="images/bonfire.jpg" alt="Bonfire evening">
         <div class="label"><div class="num">01</div><h3>Bonfire Nights</h3></div>
       </article>
       <article class="exp-card reveal">
-        <img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/sunrise.jpg" alt="Mountain sunrise viewing">
+        <img src="images/sunrise.jpg" alt="Mountain sunrise viewing">
         <div class="label"><div class="num">02</div><h3>Mountain Sunrise</h3></div>
       </article>
       <article class="exp-card reveal">
-        <img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/cinema.jpg" alt="Outdoor cinema under the stars">
+        <img src="images/cinema.jpg" alt="Outdoor cinema under the stars">
         <div class="label"><div class="num">03</div><h3>Outdoor Cinema</h3></div>
       </article>
       <article class="exp-card reveal">
-        <img src="https://raw.githubusercontent.com/hankerism/bahay-liwanag/main/coffee-by-hills.jpg" alt="Coffee overlooking the hills">
+        <img src="images/coffee-by-hills.jpg" alt="Coffee overlooking the hills">
         <div class="label"><div class="num">04</div><h3>Coffee by the Hills</h3></div>
       </article>
     </div>
@@ -498,7 +498,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Bahay Liwanag. All Rights Reserved.</span>
-      <span>A design portfolio project.</span>
+      <span>A design portfolio project by Abby.</span>
     </div>
   </div>
 </footer>
