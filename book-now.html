@@ -3,405 +3,1522 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Book Now — Bahay Liwanag</title>
-<meta name="description" content="Reserve your stay at Bahay Liwanag — a modern Filipino heritage retreat in the Tagaytay Highlands.">
+
+<meta
+  name="description"
+  content="Reserve your stay at Bahay Liwanag — a modern Filipino heritage retreat in the Tagaytay Highlands."
+>
 
 <!--
-  ===========================================================================
-  BAHAY LIWANAG — inherits the CANONICAL design system from index.html
-  Header (.site-header) and Footer (.site-footer) are reused EXACTLY.
-  IMAGES images/<file>.jpg
-  ===========================================================================
+============================================================================
+BAHAY LIWANAG — BOOK NOW
+Canonical Bahay Liwanag design system
+GHL-powered reservation form
+============================================================================
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
 
 <style>
-  /* ---------- TOKENS (canonical) ---------- */
-  :root{
-    --ivory:#F8F5F0;
-    --ivory-warm:#EFE9DF;
-    --forest:#2F4F3E;
-    --forest-deep:#243D30;
-    --terracotta:#C86B4A;
-    --terracotta-deep:#B15A3B;
-    --charcoal:#2A2A2A;
-    --charcoal-soft:#54514B;
-    --line:rgba(42,42,42,.14);
-    --line-light:rgba(248,245,240,.22);
-    --serif:"Playfair Display",Georgia,serif;
-    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    --maxw:1200px;
-    --gutter:clamp(20px,5vw,64px);
-    --header-h:76px;
-    --ease:cubic-bezier(.22,.61,.36,1);
+
+  /* =========================================================
+     TOKENS
+  ========================================================= */
+
+  :root {
+    --ivory: #F8F5F0;
+    --ivory-warm: #EFE9DF;
+
+    --forest: #2F4F3E;
+    --forest-deep: #243D30;
+
+    --terracotta: #C86B4A;
+    --terracotta-deep: #B15A3B;
+
+    --charcoal: #2A2A2A;
+    --charcoal-soft: #54514B;
+
+    --line: rgba(42,42,42,.14);
+    --line-light: rgba(248,245,240,.22);
+
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    --maxw: 1200px;
+    --gutter: clamp(20px, 5vw, 64px);
+
+    --header-h: 76px;
+
+    --ease: cubic-bezier(.22,.61,.36,1);
   }
 
-  /* ---------- RESET (canonical) ---------- */
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:var(--sans);color:var(--charcoal);background:var(--ivory);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  img{display:block;max-width:100%;height:auto}
-  a{color:inherit;text-decoration:none}
-  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em}
 
-  /* ---------- SHARED HELPERS (canonical) ---------- */
-  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
-  .eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--terracotta)}
-  .eyebrow.on-dark{color:#E3A584}
-  .capiz{display:inline-grid;grid-template-columns:repeat(3,5px);grid-template-rows:repeat(3,5px);gap:2px;flex:none}
-  .capiz i{background:var(--terracotta);opacity:.85;display:block}
-  .capiz.on-dark i{background:#E3A584}
+  /* =========================================================
+     RESET
+  ========================================================= */
 
-  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:600;font-size:.86rem;letter-spacing:.04em;padding:14px 28px;border-radius:2px;cursor:pointer;border:1.5px solid transparent;transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
-  .btn-primary{background:var(--terracotta);color:#fff}
-  .btn-primary:hover{background:var(--terracotta-deep);transform:translateY(-2px)}
-  .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
-  .btn-ghost:hover{background:#fff;color:var(--forest);border-color:#fff}
-  .btn-outline{background:transparent;color:var(--forest);border-color:var(--forest)}
-  .btn-outline:hover{background:var(--forest);color:var(--ivory);transform:translateY(-2px)}
-
-  .section{padding-block:clamp(64px,9vw,120px)}
-
-  /* ===================================================================
-     CANONICAL HEADER  (identical to index.html)
-     =================================================================== */
-  .site-header{position:fixed;inset:0 0 auto 0;z-index:100;height:var(--header-h);display:flex;align-items:center;background:var(--forest);border-bottom:1px solid var(--line-light);transition:background .4s var(--ease),box-shadow .4s var(--ease)}
-  .site-header.scrolled{background:var(--forest-deep);box-shadow:0 10px 30px rgba(0,0,0,.18)}
-  .header-inner{width:100%;max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:24px}
-  .logo{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--ivory);letter-spacing:.28em;text-transform:uppercase;white-space:nowrap}
-  .logo span{color:var(--terracotta)}
-  .nav{display:flex;align-items:center;gap:34px}
-  .nav a{font-size:.82rem;font-weight:500;letter-spacing:.06em;color:rgba(248,245,240,.82);position:relative;padding:6px 0;transition:color .3s var(--ease)}
-  .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--terracotta);transition:width .3s var(--ease)}
-  .nav a:hover,.nav a[aria-current="page"]{color:var(--ivory)}
-  .nav a:hover::after,.nav a[aria-current="page"]::after{width:100%}
-  .header-cta{display:flex;align-items:center;gap:18px}
-  .header-cta .btn{padding:11px 22px}
-  .nav-toggle{display:none;background:none;border:0;cursor:pointer;width:30px;height:24px;position:relative}
-  .nav-toggle span{position:absolute;left:0;height:2px;width:100%;background:var(--ivory);transition:transform .35s var(--ease),opacity .35s var(--ease)}
-  .nav-toggle span:nth-child(1){top:2px}
-  .nav-toggle span:nth-child(2){top:11px}
-  .nav-toggle span:nth-child(3){top:20px}
-  body.nav-open .nav-toggle span:nth-child(1){transform:translateY(9px) rotate(45deg)}
-  body.nav-open .nav-toggle span:nth-child(2){opacity:0}
-  body.nav-open .nav-toggle span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
-
-  /* ===================================================================
-     PAGE HERO  (reuses canonical hero treatment, reduced height)
-     =================================================================== */
-  .page-hero{position:relative;min-height:58vh;display:flex;align-items:flex-end;color:#fff;padding-bottom:clamp(46px,7vw,82px);padding-top:var(--header-h)}
-  .page-hero .bg{position:absolute;inset:0;z-index:-2;background:url("images/book-now-hero.jpg") center/cover no-repeat}
-  .page-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(36,61,48,.88) 0%,rgba(36,61,48,.38) 55%,rgba(36,61,48,.22) 100%)}
-  .page-hero h1{font-size:clamp(2.4rem,5.6vw,4.2rem);margin:20px 0 18px;text-shadow:0 2px 30px rgba(0,0,0,.3)}
-  .page-hero p{max-width:540px;font-size:clamp(1rem,1.5vw,1.16rem);color:rgba(255,255,255,.92)}
-  .page-hero .eyebrow{color:#fff}
-
-  /* ===================================================================
-     BOOKING
-     =================================================================== */
-  .booking{position:relative}
-  .booking .bg{position:absolute;inset:0;z-index:-2;background:url("images/reservation-section-background.jpg") center/cover fixed no-repeat}
-  .booking::after{content:"";position:absolute;inset:0;z-index:-1;background:rgba(36,61,48,.86)}
-  .booking-card{background:var(--ivory);max-width:760px;margin:0 auto;border-radius:4px;padding:clamp(28px,5vw,52px);box-shadow:0 30px 70px rgba(0,0,0,.4)}
-  .booking-card h2{font-size:clamp(1.8rem,3.2vw,2.5rem);color:var(--forest);margin:16px 0 6px}
-  .booking-card .lede{color:var(--charcoal-soft);font-size:1rem}
-
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;margin-top:28px}
-  .field{display:flex;flex-direction:column;gap:7px}
-  .field.full{grid-column:1/-1}
-  .field label{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--charcoal-soft)}
-  .field input,.field select,.field textarea{font-family:var(--sans);font-size:.95rem;color:var(--charcoal);padding:12px 14px;border:1px solid var(--line);border-radius:2px;background:#fff;transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(200,107,74,.16)}
-  .field textarea{resize:vertical;min-height:104px}
-  .submit-row{grid-column:1/-1;display:flex;align-items:center;justify-content:flex-start;gap:18px;flex-wrap:wrap;margin-top:4px}
-  .demo-note{grid-column:1/-1;font-size:.82rem;font-style:italic;color:var(--charcoal-soft);border-top:1px solid var(--line);padding-top:18px;margin-top:6px}
-  .form-error{grid-column:1/-1;display:none;color:#B3402A;font-size:.88rem;font-weight:500}
-  .form-error.show{display:block}
-
-  .booking-success{display:none;text-align:center;padding:30px 10px 10px}
-  .booking-success.show{display:block}
-  .booking-success .mark{width:54px;height:54px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 18px}
-  .booking-success h3{font-size:1.6rem;color:var(--forest);margin-bottom:10px}
-  .booking-success p{color:var(--charcoal-soft);max-width:42ch;margin:0 auto}
-
-  /* ===================================================================
-     LOCATION  (reuses canonical split pattern)
-     =================================================================== */
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
-  .split-media{position:relative}
-  .split-media img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px}
-  .split-media .frame{position:absolute;inset:16px -16px -16px 16px;border:1px solid var(--terracotta);border-radius:3px;z-index:-1}
-  .split-body h2{font-size:clamp(1.9rem,3.4vw,2.85rem);margin:18px 0 20px;color:var(--forest)}
-  .loc-list{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:6px}
-  .loc-list li{display:flex;gap:14px;align-items:flex-start}
-  .loc-list .ic{flex:none;font-size:1.05rem;margin-top:2px}
-  .loc-list strong{display:block;color:var(--charcoal);font-weight:600;font-size:.95rem}
-  .loc-list span{color:var(--charcoal-soft);font-size:.94rem}
-
-  /* ===================================================================
-     CANONICAL FOOTER  (identical to index.html)
-     =================================================================== */
-  .site-footer{background:var(--forest-deep);color:rgba(248,245,240,.78);padding-top:clamp(56px,7vw,84px)}
-  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:40px;padding-bottom:clamp(44px,6vw,64px);border-bottom:1px solid var(--line-light)}
-  .footer-brand .logo{display:inline-block;margin-bottom:16px}
-  .footer-brand p{font-size:.92rem;max-width:30ch}
-  .footer-col h4{font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ivory);margin-bottom:18px}
-  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
-  .footer-col a{font-size:.92rem;transition:color .3s var(--ease)}
-  .footer-col a:hover{color:var(--terracotta)}
-  .footer-col .contact-line{font-size:.92rem;margin-bottom:11px;display:flex;gap:10px}
-  .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding-block:26px;font-size:.82rem;color:rgba(248,245,240,.6)}
-
-  /* ---------- REVEAL (canonical) ---------- */
-  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-  .reveal.in{opacity:1;transform:none}
-
-  /* ===================================================================
-     RESPONSIVE (canonical + page)
-     =================================================================== */
-  @media (max-width:980px){
-    .footer-grid{grid-template-columns:1fr 1fr;gap:34px}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  @media (max-width:760px){
-    .nav-toggle{display:block;z-index:120}
-    .nav{position:fixed;inset:0;flex-direction:column;justify-content:center;gap:30px;background:var(--forest-deep);transform:translateX(100%);transition:transform .45s var(--ease)}
-    body.nav-open .nav{transform:none}
-    .nav a{font-size:1.2rem}
-    .header-cta .btn{display:none}
-    .form-grid{grid-template-columns:1fr}
-    .split{grid-template-columns:1fr;gap:34px}
-    .split-media .frame{inset:10px -10px -10px 10px}
+
+  html {
+    scroll-behavior: smooth;
   }
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none!important;scroll-behavior:auto!important}
-    .reveal{opacity:1;transform:none;transition:none}
-    .booking .bg{background-attachment:scroll}
+
+  body {
+    font-family: var(--sans);
+    color: var(--charcoal);
+    background: var(--ivory);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -.01em;
+  }
+
+
+  /* =========================================================
+     SHARED HELPERS
+  ========================================================= */
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    font-family: var(--sans);
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+
+    color: var(--terracotta);
+  }
+
+  .eyebrow.on-dark {
+    color: #E3A584;
+  }
+
+  .capiz {
+    display: inline-grid;
+
+    grid-template-columns: repeat(3, 5px);
+    grid-template-rows: repeat(3, 5px);
+
+    gap: 2px;
+    flex: none;
+  }
+
+  .capiz i {
+    background: var(--terracotta);
+    opacity: .85;
+    display: block;
+  }
+
+  .capiz.on-dark i {
+    background: #E3A584;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: .86rem;
+    letter-spacing: .04em;
+
+    padding: 14px 28px;
+
+    border-radius: 2px;
+    cursor: pointer;
+
+    border: 1.5px solid transparent;
+
+    transition:
+      background .35s var(--ease),
+      color .35s var(--ease),
+      border-color .35s var(--ease),
+      transform .35s var(--ease);
+  }
+
+  .btn-primary {
+    background: var(--terracotta);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--terracotta-deep);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255,255,255,.55);
+  }
+
+  .btn-ghost:hover {
+    background: #fff;
+    color: var(--forest);
+    border-color: #fff;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--forest);
+    border-color: var(--forest);
+  }
+
+  .btn-outline:hover {
+    background: var(--forest);
+    color: var(--ivory);
+    transform: translateY(-2px);
+  }
+
+  .section {
+    padding-block: clamp(64px, 9vw, 120px);
+  }
+
+
+  /* =========================================================
+     HEADER
+  ========================================================= */
+
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+
+    z-index: 100;
+
+    height: var(--header-h);
+
+    display: flex;
+    align-items: center;
+
+    background: var(--forest);
+
+    border-bottom: 1px solid var(--line-light);
+
+    transition:
+      background .4s var(--ease),
+      box-shadow .4s var(--ease);
+  }
+
+  .site-header.scrolled {
+    background: var(--forest-deep);
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);
+  }
+
+  .header-inner {
+    width: 100%;
+    max-width: var(--maxw);
+
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.18rem;
+    font-weight: 600;
+
+    color: var(--ivory);
+
+    letter-spacing: .28em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+  }
+
+  .logo span {
+    color: var(--terracotta);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+  }
+
+  .nav a {
+    font-size: .82rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+
+    color: rgba(248,245,240,.82);
+
+    position: relative;
+
+    padding: 6px 0;
+
+    transition: color .3s var(--ease);
+  }
+
+  .nav a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 1.5px;
+
+    background: var(--terracotta);
+
+    transition: width .3s var(--ease);
+  }
+
+  .nav a:hover,
+  .nav a[aria-current="page"] {
+    color: var(--ivory);
+  }
+
+  .nav a:hover::after,
+  .nav a[aria-current="page"]::after {
+    width: 100%;
+  }
+
+  .header-cta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .header-cta .btn {
+    padding: 11px 22px;
+  }
+
+  .nav-toggle {
+    display: none;
+
+    background: none;
+    border: 0;
+
+    cursor: pointer;
+
+    width: 30px;
+    height: 24px;
+
+    position: relative;
+  }
+
+  .nav-toggle span {
+    position: absolute;
+    left: 0;
+
+    height: 2px;
+    width: 100%;
+
+    background: var(--ivory);
+
+    transition:
+      transform .35s var(--ease),
+      opacity .35s var(--ease);
+  }
+
+  .nav-toggle span:nth-child(1) {
+    top: 2px;
+  }
+
+  .nav-toggle span:nth-child(2) {
+    top: 11px;
+  }
+
+  .nav-toggle span:nth-child(3) {
+    top: 20px;
+  }
+
+  body.nav-open .nav-toggle span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  body.nav-open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  body.nav-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+
+  /* =========================================================
+     PAGE HERO
+  ========================================================= */
+
+  .page-hero {
+    position: relative;
+
+    min-height: 58vh;
+
+    display: flex;
+    align-items: flex-end;
+
+    color: #fff;
+
+    padding-bottom: clamp(46px, 7vw, 82px);
+    padding-top: var(--header-h);
+  }
+
+  .page-hero .bg {
+    position: absolute;
+    inset: 0;
+
+    z-index: -2;
+
+    background:
+      url("images/book-now-hero.jpg")
+      center / cover
+      no-repeat;
+  }
+
+  .page-hero::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: -1;
+
+    background:
+      linear-gradient(
+        to top,
+        rgba(36,61,48,.88) 0%,
+        rgba(36,61,48,.38) 55%,
+        rgba(36,61,48,.22) 100%
+      );
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.4rem, 5.6vw, 4.2rem);
+
+    margin: 20px 0 18px;
+
+    text-shadow: 0 2px 30px rgba(0,0,0,.3);
+  }
+
+  .page-hero p {
+    max-width: 540px;
+
+    font-size: clamp(1rem, 1.5vw, 1.16rem);
+
+    color: rgba(255,255,255,.92);
+  }
+
+  .page-hero .eyebrow {
+    color: #fff;
+  }
+
+
+  /* =========================================================
+     BOOKING SECTION
+  ========================================================= */
+
+  .booking {
+    position: relative;
+  }
+
+  .booking .bg {
+    position: absolute;
+    inset: 0;
+
+    z-index: -2;
+
+    background:
+      url("images/reservation-section-background.jpg")
+      center / cover fixed
+      no-repeat;
+  }
+
+  .booking::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: -1;
+
+    background: rgba(36,61,48,.86);
+  }
+
+  .booking-card {
+    background: var(--ivory);
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    border-radius: 4px;
+
+    padding: clamp(28px, 5vw, 52px);
+
+    box-shadow: 0 30px 70px rgba(0,0,0,.4);
+  }
+
+  .booking-card h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+
+    color: var(--forest);
+
+    margin: 16px 0 6px;
+  }
+
+  .booking-card .lede {
+    color: var(--charcoal-soft);
+    font-size: 1rem;
+  }
+
+
+  /* =========================================================
+     GHL EMBED
+  ========================================================= */
+
+  .ghl-form-wrap {
+    width: 100%;
+
+    margin-top: 28px;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+
+    background: var(--ivory);
+  }
+
+  .ghl-form-wrap iframe {
+    display: block;
+
+    width: 100%;
+
+    min-height: 720px;
+
+    height: 720px;
+
+    border: 0;
+
+    border-radius: 4px;
+
+    background: transparent;
+  }
+
+
+  /* =========================================================
+     LOCATION
+  ========================================================= */
+
+  .split {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: clamp(32px, 5vw, 72px);
+
+    align-items: center;
+  }
+
+  .split-media {
+    position: relative;
+  }
+
+  .split-media img {
+    width: 100%;
+
+    aspect-ratio: 4 / 3;
+
+    object-fit: cover;
+
+    border-radius: 3px;
+  }
+
+  .split-media .frame {
+    position: absolute;
+
+    inset: 16px -16px -16px 16px;
+
+    border: 1px solid var(--terracotta);
+
+    border-radius: 3px;
+
+    z-index: -1;
+  }
+
+  .split-body h2 {
+    font-size: clamp(1.9rem, 3.4vw, 2.85rem);
+
+    margin: 18px 0 20px;
+
+    color: var(--forest);
+  }
+
+  .loc-list {
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    margin-top: 6px;
+  }
+
+  .loc-list li {
+    display: flex;
+
+    gap: 14px;
+
+    align-items: flex-start;
+  }
+
+  .loc-list .ic {
+    flex: none;
+
+    font-size: 1.05rem;
+
+    margin-top: 2px;
+  }
+
+  .loc-list strong {
+    display: block;
+
+    color: var(--charcoal);
+
+    font-weight: 600;
+
+    font-size: .95rem;
+  }
+
+  .loc-list span {
+    color: var(--charcoal-soft);
+
+    font-size: .94rem;
+  }
+
+
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+
+  .site-footer {
+    background: var(--forest-deep);
+
+    color: rgba(248,245,240,.78);
+
+    padding-top: clamp(56px, 7vw, 84px);
+  }
+
+  .footer-grid {
+    display: grid;
+
+    grid-template-columns:
+      1.4fr
+      1fr
+      1.2fr
+      1fr;
+
+    gap: 40px;
+
+    padding-bottom: clamp(44px, 6vw, 64px);
+
+    border-bottom: 1px solid var(--line-light);
+  }
+
+  .footer-brand .logo {
+    display: inline-block;
+
+    margin-bottom: 16px;
+  }
+
+  .footer-brand p {
+    font-size: .92rem;
+
+    max-width: 30ch;
+  }
+
+  .footer-col h4 {
+    font-family: var(--sans);
+
+    font-size: .74rem;
+
+    font-weight: 600;
+
+    letter-spacing: .18em;
+
+    text-transform: uppercase;
+
+    color: var(--ivory);
+
+    margin-bottom: 18px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 11px;
+  }
+
+  .footer-col a {
+    font-size: .92rem;
+
+    transition: color .3s var(--ease);
+  }
+
+  .footer-col a:hover {
+    color: var(--terracotta);
+  }
+
+  .footer-col .contact-line {
+    font-size: .92rem;
+
+    margin-bottom: 11px;
+
+    display: flex;
+
+    gap: 10px;
+  }
+
+  .footer-bottom {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    padding-block: 26px;
+
+    font-size: .82rem;
+
+    color: rgba(248,245,240,.6);
+  }
+
+
+  /* =========================================================
+     REVEAL
+  ========================================================= */
+
+  .reveal {
+    opacity: 0;
+
+    transform: translateY(26px);
+
+    transition:
+      opacity .8s var(--ease),
+      transform .8s var(--ease);
+  }
+
+  .reveal.in {
+    opacity: 1;
+
+    transform: none;
+  }
+
+
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
+
+  @media (max-width: 980px) {
+
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+
+      gap: 34px;
+    }
+
+  }
+
+
+  @media (max-width: 760px) {
+
+    .nav-toggle {
+      display: block;
+
+      z-index: 120;
+    }
+
+    .nav {
+      position: fixed;
+
+      inset: 0;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      gap: 30px;
+
+      background: var(--forest-deep);
+
+      transform: translateX(100%);
+
+      transition:
+        transform .45s var(--ease);
+    }
+
+    body.nav-open .nav {
+      transform: none;
+    }
+
+    .nav a {
+      font-size: 1.2rem;
+    }
+
+    .header-cta .btn {
+      display: none;
+    }
+
+    .split {
+      grid-template-columns: 1fr;
+
+      gap: 34px;
+    }
+
+    .split-media .frame {
+      inset: 10px -10px -10px 10px;
+    }
+
+    .booking-card {
+      padding: 24px 18px;
+    }
+
+    .ghl-form-wrap iframe {
+      min-height: 900px;
+
+      height: 900px;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+
+    * {
+      animation: none !important;
+
+      scroll-behavior: auto !important;
+    }
+
+    .reveal {
+      opacity: 1;
+
+      transform: none;
+
+      transition: none;
+    }
+
+    .booking .bg {
+      background-attachment: scroll;
+    }
+
+  }
+
 </style>
 </head>
+
+
 <body>
 
-<!-- ============ CANONICAL HEADER ============ -->
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
 <header class="site-header" id="siteHeader">
+
   <div class="header-inner">
-    <a href="index.html" class="logo">Bahay <span>Liwanag</span></a>
+
+    <a href="index.html" class="logo">
+      Bahay <span>Liwanag</span>
+    </a>
+
     <nav class="nav" id="nav">
-      <a href="index.html">Home</a>
-      <a href="villas.html">Villas</a>
-      <a href="experiences.html">Experiences</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="book-now.html" aria-current="page">Book Now</a>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="villas.html">
+        Villas
+      </a>
+
+      <a href="experiences.html">
+        Experiences
+      </a>
+
+      <a href="gallery.html">
+        Gallery
+      </a>
+
+      <a
+        href="book-now.html"
+        aria-current="page"
+      >
+        Book Now
+      </a>
+
     </nav>
+
+
     <div class="header-cta">
-      <a href="book-now.html" class="btn btn-primary">Reserve Stay</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
+
+      <a
+        href="book-now.html"
+        class="btn btn-primary"
+      >
+        Reserve Stay
+      </a>
+
+
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
       </button>
+
     </div>
+
   </div>
+
 </header>
 
-<!-- ============ PAGE HERO ============ -->
+
+
+<!-- =========================================================
+     PAGE HERO
+========================================================= -->
+
 <section class="page-hero">
+
   <div class="bg"></div>
+
   <div class="wrap">
-    <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Reservations</span>
-    <h1>Your Mountain Escape Awaits</h1>
-    <p>Book your stay and experience the beauty of modern Filipino heritage living, surrounded by the hills.</p>
+
+    <span class="eyebrow">
+
+      <span class="capiz">
+
+        <i></i>
+        <i></i>
+        <i></i>
+
+        <i></i>
+        <i></i>
+        <i></i>
+
+        <i></i>
+        <i></i>
+        <i></i>
+
+      </span>
+
+      Reservations
+
+    </span>
+
+
+    <h1>
+      Your Mountain Escape Awaits
+    </h1>
+
+
+    <p>
+      Book your stay and experience the beauty of modern Filipino
+      heritage living, surrounded by the hills.
+    </p>
+
   </div>
+
 </section>
 
-<!-- ============ BOOKING FORM ============ -->
+
+
+<!-- =========================================================
+     BOOKING / GHL FORM
+========================================================= -->
+
 <section class="section booking">
+
   <div class="bg"></div>
+
   <div class="wrap">
+
     <div class="booking-card reveal">
-      <div id="formWrap">
-        <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Reservation</span>
-        <h2>Reserve Your Stay</h2>
-        <p class="lede">Tell us a little about your trip and we'll take care of the rest.</p>
 
-        <form class="form-grid" id="reservationForm" novalidate>
-          <div class="field full">
-            <label for="fullname">Full Name</label>
-            <input type="text" id="fullname" name="full_name" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" autocomplete="email" required>
-          </div>
-          <div class="field">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" autocomplete="tel" required>
-          </div>
-          <div class="field">
-            <label for="checkin">Check-in Date</label>
-            <input type="date" id="checkin" name="check_in" required>
-          </div>
-          <div class="field">
-            <label for="checkout">Check-out Date</label>
-            <input type="date" id="checkout" name="check_out" required>
-          </div>
-          <div class="field">
-            <label for="guests">Number of Guests</label>
-            <input type="number" id="guests" name="guests" min="1" max="12" value="2" required>
-          </div>
-          <div class="field">
-            <label for="villa">Preferred Villa</label>
-            <select id="villa" name="villa">
-              <option value="No preference">No preference</option>
-              <option value="Villa Sampaguita">Villa Sampaguita — Couples</option>
-              <option value="Villa Narra">Villa Narra — Families</option>
-              <option value="Villa Amihan">Villa Amihan — Luxury</option>
-            </select>
-          </div>
-          <div class="field full">
-            <label for="requests">Special Requests</label>
-            <textarea id="requests" name="special_requests" placeholder="Dietary needs, arrival time, celebrations..."></textarea>
-          </div>
-          <div class="submit-row">
-            <button type="submit" class="btn btn-primary">Submit Reservation</button>
-          </div>
-          <p class="form-error" id="formError" role="alert"></p>
-          <p class="demo-note">This website is part of a design portfolio project. Reservation requests are sent to our team and confirmed manually.</p>
-        </form>
+
+      <!-- PAGE INTRO -->
+
+      <span class="eyebrow">
+
+        <span class="capiz">
+
+          <i></i>
+          <i></i>
+          <i></i>
+
+          <i></i>
+          <i></i>
+          <i></i>
+
+          <i></i>
+          <i></i>
+          <i></i>
+
+        </span>
+
+        Reservation
+
+      </span>
+
+
+      <h2>
+        Reserve Your Stay
+      </h2>
+
+
+      <p class="lede">
+        Tell us a little about your trip and we'll take care of the rest.
+      </p>
+
+
+      <!-- =====================================================
+           GOHIGHLEVEL FORM
+      ====================================================== -->
+
+      <div class="ghl-form-wrap">
+
+        <iframe
+          src="https://api.leadconnectorhq.com/widget/form/7x9H9qxsWG9HkRmGMdHv"
+          id="inline-7x9H9qxsWG9HkRmGMdHv"
+          title="Bahay Liwanag Booking Form"
+          style="
+            width:100%;
+            height:720px;
+            border:none;
+            border-radius:4px;
+          "
+          data-layout="{'id':'INLINE'}"
+          data-trigger-type="alwaysShow"
+          data-trigger-value=""
+          data-activation-type="alwaysActivated"
+          data-activation-value=""
+          data-deactivation-type="neverDeactivate"
+          data-deactivation-value=""
+          data-form-name="Bahay Liwanag Booking Form"
+          data-height="720"
+          data-layout-iframe-id="inline-7x9H9qxsWG9HkRmGMdHv"
+          data-form-id="7x9H9qxsWG9HkRmGMdHv"
+        >
+        </iframe>
+
       </div>
 
-      <div class="booking-success" id="successMsg" role="status" aria-live="polite">
-        <div class="mark">&#10003;</div>
-        <h3>Reservation Received</h3>
-        <p>Thank you — this is a demo, so no booking has actually been made. In a live site, our team would confirm your stay by email shortly.</p>
-      </div>
+
+      <!-- GHL EMBED SCRIPT -->
+
+      <script
+        src="https://link.msgsndr.com/js/form_embed.js">
+      </script>
+
+
     </div>
+
   </div>
+
 </section>
 
-<!-- ============ LOCATION ============ -->
+
+
+<!-- =========================================================
+     LOCATION
+========================================================= -->
+
 <section class="section">
+
   <div class="wrap split reveal">
+
+
     <div class="split-media">
-      <img src="images/location-arrival.jpg" alt="Arrival at Bahay Liwanag">
+
+      <img
+        src="images/location-arrival.jpg"
+        alt="Arrival at Bahay Liwanag"
+      >
+
       <span class="frame"></span>
+
     </div>
+
+
     <div class="split-body">
-      <span class="eyebrow"><span class="capiz"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Getting here</span>
-      <h2>Finding Your Way Up</h2>
+
+      <span class="eyebrow">
+
+        <span class="capiz">
+
+          <i></i>
+          <i></i>
+          <i></i>
+
+          <i></i>
+          <i></i>
+          <i></i>
+
+          <i></i>
+          <i></i>
+          <i></i>
+
+        </span>
+
+        Getting here
+
+      </span>
+
+
+      <h2>
+        Finding Your Way Up
+      </h2>
+
+
       <ul class="loc-list">
-        <li><span class="ic">📍</span><div><strong>Location</strong><span>Tagaytay Highlands, Philippines — tucked into the hills, about two hours from Metro Manila.</span></div></li>
-        <li><span class="ic">🚗</span><div><strong>By Car</strong><span>Private parking is available on-site. Detailed directions are shared with every confirmed reservation.</span></div></li>
-        <li><span class="ic">📧</span><div><strong>Questions?</strong><span><a href="mailto:hello@bahayliwanag.com">hello@bahayliwanag.com</a> · +63 912 345 6789</span></div></li>
+
+        <li>
+
+          <span class="ic">
+            📍
+          </span>
+
+          <div>
+
+            <strong>
+              Location
+            </strong>
+
+            <span>
+              Tagaytay Highlands, Philippines —
+              tucked into the hills, about two hours
+              from Metro Manila.
+            </span>
+
+          </div>
+
+        </li>
+
+
+        <li>
+
+          <span class="ic">
+            🚗
+          </span>
+
+          <div>
+
+            <strong>
+              By Car
+            </strong>
+
+            <span>
+              Private parking is available on-site.
+              Detailed directions are shared with
+              every confirmed reservation.
+            </span>
+
+          </div>
+
+        </li>
+
+
+        <li>
+
+          <span class="ic">
+            📧
+          </span>
+
+          <div>
+
+            <strong>
+              Questions?
+            </strong>
+
+            <span>
+
+              <a href="mailto:hello@bahayliwanag.com">
+                hello@bahayliwanag.com
+              </a>
+
+              · +63 912 345 6789
+
+            </span>
+
+          </div>
+
+        </li>
+
       </ul>
+
     </div>
+
   </div>
+
 </section>
 
-<!-- ============ CANONICAL FOOTER ============ -->
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer class="site-footer">
+
   <div class="wrap">
+
+
     <div class="footer-grid">
+
+
+      <!-- BRAND -->
+
       <div class="footer-brand">
-        <a href="index.html" class="logo">Bahay <span>Liwanag</span></a>
-        <p>Modern Filipino tiny home resort — a heritage retreat designed for rest, set among the mountains.</p>
+
+        <a
+          href="index.html"
+          class="logo"
+        >
+          Bahay <span>Liwanag</span>
+        </a>
+
+
+        <p>
+          Modern Filipino tiny home resort —
+          a heritage retreat designed for rest,
+          set among the mountains.
+        </p>
+
       </div>
+
+
+
+      <!-- QUICK LINKS -->
+
       <div class="footer-col">
-        <h4>Quick Links</h4>
+
+        <h4>
+          Quick Links
+        </h4>
+
+
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="villas.html">Villas</a></li>
-          <li><a href="experiences.html">Experiences</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="book-now.html">Book Now</a></li>
+
+          <li>
+            <a href="index.html">
+              Home
+            </a>
+          </li>
+
+          <li>
+            <a href="villas.html">
+              Villas
+            </a>
+          </li>
+
+          <li>
+            <a href="experiences.html">
+              Experiences
+            </a>
+          </li>
+
+          <li>
+            <a href="gallery.html">
+              Gallery
+            </a>
+          </li>
+
+          <li>
+            <a href="book-now.html">
+              Book Now
+            </a>
+          </li>
+
         </ul>
+
       </div>
+
+
+
+      <!-- CONTACT -->
+
       <div class="footer-col">
-        <h4>Contact</h4>
-        <div class="contact-line">📍 Tagaytay Highlands, Philippines</div>
-        <div class="contact-line">📧 <a href="mailto:hello@bahayliwanag.com">hello@bahayliwanag.com</a></div>
-        <div class="contact-line">📞 +63 912 345 6789</div>
+
+        <h4>
+          Contact
+        </h4>
+
+
+        <div class="contact-line">
+          📍 Tagaytay Highlands, Philippines
+        </div>
+
+
+        <div class="contact-line">
+
+          📧
+
+          <a href="mailto:hello@bahayliwanag.com">
+            hello@bahayliwanag.com
+          </a>
+
+        </div>
+
+
+        <div class="contact-line">
+          📞 +63 912 345 6789
+        </div>
+
       </div>
+
+
+
+      <!-- SOCIAL -->
+
       <div class="footer-col">
-        <h4>Follow</h4>
+
+        <h4>
+          Follow
+        </h4>
+
+
         <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Pinterest</a></li>
+
+          <li>
+            <a href="#">
+              Instagram
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              Facebook
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              Pinterest
+            </a>
+          </li>
+
         </ul>
+
       </div>
+
+
     </div>
+
+
+
+    <!-- FOOTER BOTTOM -->
+
     <div class="footer-bottom">
-      <span>© 2026 Bahay Liwanag. All Rights Reserved.</span>
-      <span>A design portfolio project by Abby.</span>
+
+      <span>
+        © 2026 Bahay Liwanag. All Rights Reserved.
+      </span>
+
+      <span>
+        A design portfolio project by Abby.
+      </span>
+
     </div>
+
+
   </div>
+
 </footer>
 
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
 <script>
-  // Header background on scroll (canonical)
-  const header = document.getElementById('siteHeader');
-  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
-  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
 
-  // Mobile nav toggle (canonical)
-  const toggle = document.getElementById('navToggle');
-  const nav = document.getElementById('nav');
-  toggle.addEventListener('click', () => {
-    const open = document.body.classList.toggle('nav-open');
-    toggle.setAttribute('aria-expanded', open);
-  });
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    document.body.classList.remove('nav-open');
-    toggle.setAttribute('aria-expanded', false);
-  }));
+  /* =========================================================
+     HEADER SCROLL
+  ========================================================= */
 
-  // Scroll reveal (canonical)
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const header =
+    document.getElementById("siteHeader");
 
-  // ---- Reservation submit (Make webhook) ----
-  const WEBHOOK_URL = "https://hook.eu1.make.com/cqxcbjw3mw8h9rj5czycb2cebvzb7xw8";
-  const form = document.getElementById('reservationForm');
-  const formError = document.getElementById('formError');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()){ form.reportValidity(); return; }
-    const btn = form.querySelector('button[type="submit"]');
-    const original = btn.textContent;
-    formError.classList.remove('show');
-    btn.disabled = true; btn.textContent = 'Sending…';
+  const onScroll = () => {
 
-    const data = new URLSearchParams({
-      full_name: form.querySelector('[name="full_name"]').value,
-      email: form.querySelector('[name="email"]').value,
-      phone: form.querySelector('[name="phone"]').value,
-      check_in: form.querySelector('[name="check_in"]').value,
-      check_out: form.querySelector('[name="check_out"]').value,
-      guests: form.querySelector('[name="guests"]').value,
-      villa: form.querySelector('[name="villa"]').value,
-      special_requests: form.querySelector('[name="special_requests"]').value
-    });
+    header.classList.toggle(
+      "scrolled",
+      window.scrollY > 40
+    );
 
-    try {
-      // no-cors form-encoded POST: reaches Make, skips the CORS preflight,
-      // and never navigates away — so we control the redirect ourselves.
-      await fetch(WEBHOOK_URL + "?" + data.toString(), {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: data.toString()
-      });
-      window.location.href = "thank-you.html";
-    } catch (error) {
-      console.error(error);
-      formError.textContent = "Something went wrong sending your request. Please try again.";
-      formError.classList.add('show');
-      btn.disabled = false; btn.textContent = original;
+  };
+
+  onScroll();
+
+  window.addEventListener(
+    "scroll",
+    onScroll,
+    { passive: true }
+  );
+
+
+
+  /* =========================================================
+     MOBILE NAV
+  ========================================================= */
+
+  const toggle =
+    document.getElementById("navToggle");
+
+  const nav =
+    document.getElementById("nav");
+
+
+  toggle.addEventListener(
+    "click",
+    () => {
+
+      const open =
+        document.body.classList.toggle(
+          "nav-open"
+        );
+
+      toggle.setAttribute(
+        "aria-expanded",
+        open
+      );
+
     }
-  });
+  );
+
+
+  nav.querySelectorAll("a").forEach(
+    (a) => {
+
+      a.addEventListener(
+        "click",
+        () => {
+
+          document.body.classList.remove(
+            "nav-open"
+          );
+
+          toggle.setAttribute(
+            "aria-expanded",
+            false
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+
+  /* =========================================================
+     SCROLL REVEAL
+  ========================================================= */
+
+  const io =
+    new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach(
+          (entry) => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add("in");
+
+              io.unobserve(entry.target);
+
+            }
+
+          }
+        );
+
+      },
+      {
+        threshold: .15,
+        rootMargin: "0px 0px -8% 0px"
+      }
+    );
+
+
+  document
+    .querySelectorAll(".reveal")
+    .forEach(
+      (element) => io.observe(element)
+    );
+
 </script>
+
+
 </body>
 </html>
