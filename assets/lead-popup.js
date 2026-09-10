@@ -2,6 +2,8 @@
    BAHAY LIWANAG — LEAD SIGNUP POPUP
    Static, dependency-free. Embeds the public GHL form in a branded modal.
    - Shows after ~8s OR ~40% scroll (whichever first), never on load.
+   - Warms up the GHL form ~5s after load (or at open, if scroll comes first)
+     so the modal is rarely empty; a branded loading state covers any gap.
    - Shows once per browser; suppression persisted in localStorage with
      graceful fallback to sessionStorage, then an in-memory flag.
    - Never inspects or manipulates the cross-origin GHL iframe. It only
@@ -15,6 +17,7 @@
   var GHL_ORIGIN = 'https://lets.controlyouraudience.com';
   var GHL_FORM_SRC = 'https://lets.controlyouraudience.com/widget/form/TW8JUghhGUgCGlNAFbwc';
   var SHOW_DELAY_MS = 8000;
+  var PRELOAD_DELAY_MS = 5000;
   var SCROLL_TRIGGER_PCT = 40;
 
   /* ---- suppression storage (localStorage -> sessionStorage -> memory) ---- */
@@ -44,7 +47,8 @@
 
   if (isSuppressed() || onBookingFlow()) return;
 
-  var overlay, dialog, closeBtn, lastFocus, scriptLoaded = false, opened = false;
+  var overlay, dialog, closeBtn, lastFocus, loadingEl;
+  var scriptLoaded = false, opened = false, prepared = false;
 
   function buildMarkup() {
     overlay = document.createElement('div');
@@ -60,6 +64,7 @@
       '  <h2 class="bl-lp-title" id="bl-lp-title">Enjoy <em>10% OFF</em> your first stay.</h2>',
       '  <p class="bl-lp-desc" id="bl-lp-desc">Join the Bahay Liwanag list and receive an exclusive 10% discount on your first stay. We&rsquo;ll send your discount code straight to your inbox.</p>',
       '  <div class="bl-lp-form">',
+      '    <div class="bl-lp-loading" role="status">Preparing your offer&hellip;</div>',
       '    <iframe',
       '      src="' + GHL_FORM_SRC + '"',
       '      id="inline-TW8JUghhGUgCGlNAFbwc"',
@@ -83,12 +88,32 @@
     document.body.appendChild(overlay);
     dialog = overlay.querySelector('.bl-lp-dialog');
     closeBtn = overlay.querySelector('.bl-lp-close');
+    loadingEl = overlay.querySelector('.bl-lp-loading');
+
+    // drop the branded loading state as soon as the iframe document loads
+    // (a cross-origin `load` event — no content access), with a safety timeout
+    var frame = overlay.querySelector('#inline-TW8JUghhGUgCGlNAFbwc');
+    if (frame) frame.addEventListener('load', removeLoading);
+    window.setTimeout(removeLoading, 15000);
 
     closeBtn.addEventListener('click', closePopup);
     overlay.addEventListener('mousedown', function (e) {
       // close only when the click starts on the overlay backdrop itself
       if (e.target === overlay) closePopup();
     });
+  }
+
+  function removeLoading() {
+    if (loadingEl && loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
+    loadingEl = null;
+  }
+
+  /* ---- warm up the form shortly before the popup is expected to open ---- */
+  function prepare() {
+    if (prepared || opened || isSuppressed()) return;
+    prepared = true;
+    if (!overlay) buildMarkup();   // hidden overlay; iframe starts fetching now
+    loadGhlScript();
   }
 
   function loadGhlScript() {
@@ -118,11 +143,9 @@
 
   function openPopup() {
     if (opened || isSuppressed()) return;
-    opened = true;
     clearTriggers();
-
-    if (!overlay) buildMarkup();
-    loadGhlScript();
+    prepare();   // builds markup + loads the form if the preload has not run yet
+    opened = true;
 
     lastFocus = document.activeElement;
     lockScroll();
@@ -150,7 +173,7 @@
   }
 
   /* ---- triggers: 8s timer OR 40% scroll, whichever first ---- */
-  var timerId = null;
+  var timerId = null, preloadId = null;
   function scrollHandler() {
     var doc = document.documentElement;
     var scrollable = doc.scrollHeight - window.innerHeight;
@@ -160,9 +183,11 @@
   }
   function clearTriggers() {
     if (timerId) { clearTimeout(timerId); timerId = null; }
+    if (preloadId) { clearTimeout(preloadId); preloadId = null; }
     window.removeEventListener('scroll', scrollHandler);
   }
   function armTriggers() {
+    preloadId = window.setTimeout(prepare, PRELOAD_DELAY_MS);
     timerId = window.setTimeout(openPopup, SHOW_DELAY_MS);
     window.addEventListener('scroll', scrollHandler, { passive: true });
   }
