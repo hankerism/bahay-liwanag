@@ -1,8 +1,8 @@
 /* ===========================================================================
    BAHAY LIWANAG — LEAD SIGNUP POPUP
    Static, dependency-free. Embeds the public GHL form in a branded modal.
-   - Shows after ~8s OR ~40% scroll (whichever first), never on load.
-   - Warms up the GHL form ~5s after load (or at open, if scroll comes first)
+   - Shows after ~5s OR ~40% scroll (whichever first), never on load.
+   - Warms up the GHL form ~3s after load (or at open, if scroll comes first)
      so the modal is rarely empty; a branded loading state covers any gap.
    - Shows once per browser; suppression persisted in localStorage with
      graceful fallback to sessionStorage, then an in-memory flag.
@@ -16,8 +16,8 @@
   var STORAGE_KEY = 'bl_lead_popup_v1';
   var GHL_ORIGIN = 'https://lets.controlyouraudience.com';
   var GHL_FORM_SRC = 'https://lets.controlyouraudience.com/widget/form/TW8JUghhGUgCGlNAFbwc';
-  var SHOW_DELAY_MS = 8000;
-  var PRELOAD_DELAY_MS = 5000;
+  var SHOW_DELAY_MS = 5000;
+  var PRELOAD_DELAY_MS = 3000;
   var SCROLL_TRIGGER_PCT = 40;
 
   /* ---- suppression storage (localStorage -> sessionStorage -> memory) ---- */
